@@ -68,4 +68,8 @@ Fires if no matching file was found in the `webroot`. Also fires if `false` was 
 
 ## License
 
-Dirty is licensed under the MIT license.
+Paperboy is licensed under the MIT license.
+
+## Credits
+
+* [Jan Lehnardt](http://twitter.com/janl) for coming up with the name "Paperboy"

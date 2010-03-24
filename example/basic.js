@@ -20,8 +20,8 @@ http.createServer(function(req, res) {
       sys.puts('Error delivering: '+req.url);
     })
     .otherwise(function() {
-      res.sendHeader(404, {'Content-Type': 'text/plain'});
-      res.sendBody('Sorry, no paper this morning!');
-      res.finish();
+      res.writeHeader(404, {'Content-Type': 'text/plain'});
+      res.write('Sorry, no paper this morning!');
+      res.close();
     });
 }).listen(PORT);

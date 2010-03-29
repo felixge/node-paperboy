@@ -7,34 +7,48 @@ A node.js module for delivering static files.
 ## Example
 
 Example from example/basic.js:
+  var
+    sys = require('sys'),
+    path = require('path'),
+    http = require('http'),
+    paperboy = require('../lib/paperboy'),
 
-    var
-      sys = require('sys'),
-      path = require('path'),
-      http = require('http'),
-      paperboy = require('../lib/paperboy'),
+    PORT = 8003,
+    WEBROOT = path.join(path.dirname(__filename), 'webroot');
 
-      PORT = 8003,
-      WEBROOT = path.join(path.dirname(__filename), 'webroot');
+  http.createServer(function(req, res) {
+    var ip = req.connection.remoteAddress;
+    paperboy.deliver(WEBROOT, req, res,
+    {
+      expires: 900
+    },
+    {
+      before: function() {
+        sys.log('Recieved Request')
+      },
+      after: function(statCode) {
+        res.write('Delivered: '+req.url);
+        log(statCode, req.url, ip);
+      },
+      error: function(statCode,msg) {
+        log(statCode, req.url, ip, msg)
+      },
+      otherwise: function() {
+        var statCode = 404;
+        res.writeHeader(statCode, {'Content-Type': 'text/plain'});
+        res.write('Sorry, no paper this morning!');
+        res.close();
+        log(statCode, req.url, ip);
+      }
+    });
+  }).listen(PORT);
 
-    http.createServer(function(req, res) {
-      paperboy
-        .deliver(WEBROOT, req, res)
-        .before(function() {
-          sys.puts('About to deliver: '+req.url);
-        })
-        .after(function() {
-          sys.puts('Delivered: '+req.url);
-        })
-        .error(function() {
-          sys.puts('Error delivering: '+req.url);
-        })
-        .otherwise(function() {
-          res.sendHeader(404, {'Content-Type': 'text/plain'});
-          res.sendBody('Sorry, no paper this morning!');
-          res.finish();
-        });
-    }).listen(PORT);
+  function log(statCode, url, ip,err) {
+    var logStr = statCode + ' - ' + url + ' - ' + ip
+    if (err)
+      logStr += ' - ' + err;
+    sys.log(logStr);
+  }
 
 ## API Docs
 
@@ -47,22 +61,22 @@ Parameters:
 * `webroot`: Absolute path where too look for static files to serve
 * `req`: A `http.ServerRequest` object
 * `res`: A `http.ServerResponse` object
+* `opts`: An object containing optional config parameters (only 'Expires' at the moment (in seconds))
+* `callbacks`: An object containing all callbacks described below:
 
-The function returns a delegate object that provides the methods below. Each of those methods returns the delegate itself, allowing for chaining.
-
-#### delegate.before(callback)
+#### before()
 
 Fires if a matching file was found in the `webroot` and is about to be delivered. The delivery can be canceled by returning `false` from within the callback.
 
-#### delegate.after(callback)
+#### after(statCode)
 
-Fires after a file has been successfully delivered from the `webroot`.
+Fires after a file has been successfully delivered from the `webroot`. statCode contains the numeric HTTP status code that was sent to the client
 
-#### delegate.error(callback)
+#### error(statCode,msg)
 
-Fires if there was an error delivering a file from the `webroot`.
+Fires if there was an error delivering a file from the `webroot`. statCode contains the numeric HTTP status code that was sent to the clientmsg contains the error message.
 
-#### delegate.otherwise(callback)
+#### otherwise()
 
 Fires if no matching file was found in the `webroot`. Also fires if `false` was returned in the `delegate.before()` callback.
 

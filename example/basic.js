@@ -8,20 +8,31 @@ var
   WEBROOT = path.join(path.dirname(__filename), 'webroot');
 
 http.createServer(function(req, res) {
+  var ip = req.connection.remoteAddress;
   paperboy
     .deliver(WEBROOT, req, res)
     .before(function() {
-      sys.puts('About to deliver: '+req.url);
+      sys.log('Recieved Request')
     })
-    .after(function() {
-      sys.puts('Delivered: '+req.url);
+    .after(function(statCode) {
+      res.write('Delivered: '+req.url);
+      log(statCode, req.url, ip);
     })
     .error(function() {
       sys.puts('Error delivering: '+req.url);
     })
     .otherwise(function() {
-      res.writeHeader(404, {'Content-Type': 'text/plain'});
+      var statCode = 404;
+      res.writeHeader(statCode, {'Content-Type': 'text/plain'});
       res.write('Sorry, no paper this morning!');
       res.close();
+      log(statCode, req.url, ip);
     });
 }).listen(PORT);
+
+function log(statCode, url, ip,err) {
+  var logStr = statCode + ' - ' + url + ' - ' + ip
+  if (err)
+    logStr += ' - ' + err;
+  sys.log(logStr);
+}

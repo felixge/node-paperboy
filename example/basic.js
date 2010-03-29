@@ -9,7 +9,11 @@ var
 
 http.createServer(function(req, res) {
   var ip = req.connection.remoteAddress;
-  paperboy.deliver(WEBROOT, req, res, {
+  paperboy.deliver(WEBROOT, req, res,
+  {
+    expires: 900
+  },
+  {
     before: function() {
       sys.log('Recieved Request')
     },

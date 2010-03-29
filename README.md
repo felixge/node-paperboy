@@ -52,7 +52,7 @@ Example from example/basic.js:
 
 ## API Docs
 
-### paperboy.deliver(webroot, req, res)
+### paperboy.deliver(webroot, req, res,opts,callbacks)
 
 Checks the `webroot` folder if it has a file that matches the `req.url` and streams it to the client. If `req.url` ends with a '/' (slash), 'index.html' is appended automatically.
 

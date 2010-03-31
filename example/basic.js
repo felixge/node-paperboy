@@ -11,7 +11,7 @@ http.createServer(function(req, res) {
   var ip = req.connection.remoteAddress;
   paperboy.deliver(WEBROOT, req, res,
   {
-    expires: 900
+    expires: 900 //Time in seconds frow now
   },
   {
     before: function() {

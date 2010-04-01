@@ -22,12 +22,12 @@ http.createServer(function(req, res) {
       log(statCode, req.url, ip);
     },
     error: function(statCode,msg) {
-      log(statCode, req.url, ip, msg)
+      log(statCode, req.url, ip, msg);
+      res.close;
     },
     otherwise: function(err) {
       var statCode = 404;
       res.writeHeader(statCode, {'Content-Type': 'text/plain'});
-      res.write('Sorry, no paper this morning!');
       res.close();
       log(statCode, req.url, ip, err);
     }

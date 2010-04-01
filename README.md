@@ -33,7 +33,7 @@ Example from example/basic.js:
         error: function(statCode,msg) {
           log(statCode, req.url, ip, msg)
         },
-        otherwise: function() {
+        otherwise: function(err) {
           var statCode = 404;
           res.writeHeader(statCode, {'Content-Type': 'text/plain'});
           res.write('Sorry, no paper this morning!');

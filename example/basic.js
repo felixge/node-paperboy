@@ -20,7 +20,7 @@ http.createServer(function(req, res) {
     })
     .error(function(statCode,msg) {
       res.sendHeader(statCode, {'Content-Type': 'text/plain'});
-      res.writeHead("Error: " + statCode);
+      res.write("Error: " + statCode);
       res.close();
       log(statCode, req.url, ip, msg);
     })

@@ -6,7 +6,7 @@ A node.js module for delivering static files.
 
 ## Features
   
- * Configurable callbacks on most eventslist
+ * Configurable callbacks on most events
  * ETag / 304 Support
  * Custom HTTP headers
 
@@ -43,7 +43,6 @@ Example from example/basic.js:
         .otherwise(function(err) {
           var statCode = 404;
           res.writeHead(statCode, {'Content-Type': 'text/plain'});
-          res.close("Not Found");
           log(statCode, req.url, ip, err);
         });
     }).listen(PORT);
@@ -80,7 +79,7 @@ Fires after a file has been successfully delivered from the `webroot`. statCode 
 
 #### error(statCode,msg)
 
-Fires if there was an error delivering a file from the `webroot`. statCode contains the numeric HTTP status code that was sent to the clientmsg contains the error message.
+Fires if there was an error delivering a file from the `webroot`. statCode contains the numeric HTTP status code that was sent to the clientmsg contains the error message. You must close the connection yourself if the error callback fires!
 
 #### otherwise()
 

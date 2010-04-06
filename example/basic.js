@@ -29,7 +29,6 @@ http.createServer(function(req, res) {
     .otherwise(function(err) {
       var statCode = 404;
       res.writeHead(statCode, {'Content-Type': 'text/plain'});
-      res.close("Not Found");
       log(statCode, req.url, ip, err);
     });
 }).listen(PORT);

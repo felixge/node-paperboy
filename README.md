@@ -85,6 +85,10 @@ Fires if there was an error delivering a file from the `webroot`. statCode conta
 
 Fires if no matching file was found in the `webroot`. Also fires if `false` was returned in the `delegate.before()` callback. If there was a problem stating the file, `err` is set to the contents of that error message.
 
+#### addHeader(name,value)
+
+Sets an arbitrary HTTP header. The header name `Expires` is special and expects the number of seconds till expiry, from which it will calculate the proper HTTP date.
+
 ## License
 
 Paperboy is licensed under the MIT license.

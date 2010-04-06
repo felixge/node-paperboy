@@ -81,9 +81,9 @@ Fires after a file has been successfully delivered from the `webroot`. statCode 
 
 Fires if there was an error delivering a file from the `webroot`. statCode contains the numeric HTTP status code that was sent to the clientmsg contains the error message. You must close the connection yourself if the error callback fires!
 
-#### otherwise()
+#### otherwise(err)
 
-Fires if no matching file was found in the `webroot`. Also fires if `false` was returned in the `delegate.before()` callback.
+Fires if no matching file was found in the `webroot`. Also fires if `false` was returned in the `delegate.before()` callback. If there was a problem stating the file, `err` is set to the contents of that error message.
 
 ## License
 

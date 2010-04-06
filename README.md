@@ -27,6 +27,8 @@ Example from example/basic.js:
       var ip = req.connection.remoteAddress;
       paperboy
         .deliver(WEBROOT, req, res)
+        .addHeader('Expires', 300)
+        .addHeader('X-PaperRoute', 'Node')
         .before(function() {
           sys.log('Recieved Request')
         })
@@ -53,7 +55,6 @@ Example from example/basic.js:
         logStr += ' - ' + err;
       sys.log(logStr);
     }
-
 
 ## API Docs
 

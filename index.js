@@ -1,1 +1,1 @@
-process.mixin(exports, require('./lib/paperboy'));
+module.exports = require('./lib/paperboy');

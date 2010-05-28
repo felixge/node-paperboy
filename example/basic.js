@@ -14,7 +14,7 @@ http.createServer(function(req, res) {
     .addHeader('Expires', 300)
     .addHeader('X-PaperRoute', 'Node')
     .before(function() {
-      sys.log('Recieved Request')
+      sys.log('Received Request')
     })
     .after(function(statCode) {
       res.write('Delivered: '+req.url);

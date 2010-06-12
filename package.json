@@ -1,7 +1,11 @@
 {
-  name : "paperboy",
-  author : "Felix Geisendörfer <felix@debuggable.com>",
-  version : "0.0.1",
-  description : "A node.js module for delivering static files.",
-  main : "lib/paperboy"
+  "name":"paperboy",
+  "author":"Felix Geisendörfer <felix@debuggable.com>",
+  "version":"0.0.1",
+  "description":"A node.js module for delivering static files.",
+  "keywords": ["web", "server"],
+  "directories": {
+    "lib": "lib"
+  },
+  "main": "lib/paperboy"
 }

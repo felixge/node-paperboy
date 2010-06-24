@@ -22,7 +22,7 @@ http.createServer(function(req, res) {
     .error(function(statCode,msg) {
       res.writeHead(statCode, {'Content-Type': 'text/plain'});
       res.write("Error: " + statCode);
-      res.close();
+      res.end();
       log(statCode, req.url, ip, msg);
     })
     .otherwise(function(err) {

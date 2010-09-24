@@ -14,26 +14,25 @@ http.createServer(function(req, res) {
     .addHeader('Expires', 300)
     .addHeader('X-PaperRoute', 'Node')
     .before(function() {
-      sys.log('Received Request')
+      sys.log('Received Request');
     })
     .after(function(statCode) {
       log(statCode, req.url, ip);
     })
-    .error(function(statCode,msg) {
+    .error(function(statCode, msg) {
       res.writeHead(statCode, {'Content-Type': 'text/plain'});
-      res.write("Error: " + statCode);
-      res.end();
+      res.end("Error " + statCode);
       log(statCode, req.url, ip, msg);
     })
     .otherwise(function(err) {
-      var statCode = 404;
-      res.writeHead(statCode, {'Content-Type': 'text/plain'});
-      log(statCode, req.url, ip, err);
+      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.end("Error 404: File not found");
+      log(404, req.url, ip, err);
     });
 }).listen(PORT);
 
-function log(statCode, url, ip,err) {
-  var logStr = statCode + ' - ' + url + ' - ' + ip
+function log(statCode, url, ip, err) {
+  var logStr = statCode + ' - ' + url + ' - ' + ip;
   if (err)
     logStr += ' - ' + err;
   sys.log(logStr);

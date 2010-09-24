@@ -19,10 +19,10 @@ Example from example/basic.js:
       path = require('path'),
       http = require('http'),
       paperboy = require('../lib/paperboy'),
-
+    
       PORT = 8003,
       WEBROOT = path.join(path.dirname(__filename), 'webroot');
-
+    
     http.createServer(function(req, res) {
       var ip = req.connection.remoteAddress;
       paperboy
@@ -30,27 +30,25 @@ Example from example/basic.js:
         .addHeader('Expires', 300)
         .addHeader('X-PaperRoute', 'Node')
         .before(function() {
-          sys.log('Received Request')
+          sys.log('Received Request');
         })
         .after(function(statCode) {
-          res.write('Delivered: '+req.url);
           log(statCode, req.url, ip);
         })
-        .error(function(statCode,msg) {
+        .error(function(statCode, msg) {
           res.writeHead(statCode, {'Content-Type': 'text/plain'});
-          res.write("Error: " + statCode);
-          res.close();
+          res.end("Error " + statCode);
           log(statCode, req.url, ip, msg);
         })
         .otherwise(function(err) {
-          var statCode = 404;
-          res.writeHead(statCode, {'Content-Type': 'text/plain'});
-          log(statCode, req.url, ip, err);
+          res.writeHead(404, {'Content-Type': 'text/plain'});
+          res.end("Error 404: File not found");
+          log(404, req.url, ip, err);
         });
     }).listen(PORT);
-
-    function log(statCode, url, ip,err) {
-      var logStr = statCode + ' - ' + url + ' - ' + ip
+    
+    function log(statCode, url, ip, err) {
+      var logStr = statCode + ' - ' + url + ' - ' + ip;
       if (err)
         logStr += ' - ' + err;
       sys.log(logStr);
@@ -58,7 +56,7 @@ Example from example/basic.js:
 
 ## API Docs
 
-### paperboy.deliver(webroot, req, res,opts,callbacks)
+### paperboy.deliver(webroot, req, res, opts, callbacks)
 
 Checks the `webroot` folder if it has a file that matches the `req.url` and streams it to the client. If `req.url` ends with a '/' (slash), 'index.html' is appended automatically.
 
@@ -76,17 +74,17 @@ Fires if a matching file was found in the `webroot` and is about to be delivered
 
 #### after(statCode)
 
-Fires after a file has been successfully delivered from the `webroot`. statCode contains the numeric HTTP status code that was sent to the client
+Fires after a file has been successfully delivered from the `webroot`. `statCode` contains the numeric HTTP status code that was sent to the client. You must close the connection yourself if the error callback fires!
 
-#### error(statCode,msg)
+#### error(statCode, msg)
 
-Fires if there was an error delivering a file from the `webroot`. statCode contains the numeric HTTP status code that was sent to the clientmsg contains the error message. You must close the connection yourself if the error callback fires!
+Fires if there was an error delivering a file from the `webroot`. `statCode` contains the numeric HTTP status code that was sent to the client. `msg` contains the error message. You must close the connection yourself if the error callback fires!
 
 #### otherwise(err)
 
 Fires if no matching file was found in the `webroot`. Also fires if `false` was returned in the `delegate.before()` callback. If there was a problem stating the file, `err` is set to the contents of that error message.
 
-#### addHeader(name,value)
+#### addHeader(name, value)
 
 Sets an arbitrary HTTP header. The header name `Expires` is special and expects the number of seconds till expiry, from which it will calculate the proper HTTP date.
 

@@ -1,5 +1,4 @@
 var
-  sys = require('sys'),
   path = require('path'),
   http = require('http'),
   paperboy = require('../lib/paperboy'),
@@ -14,7 +13,7 @@ http.createServer(function(req, res) {
     .addHeader('Expires', 300)
     .addHeader('X-PaperRoute', 'Node')
     .before(function() {
-      sys.log('Received Request');
+      console.log('Received Request');
     })
     .after(function(statCode) {
       log(statCode, req.url, ip);
@@ -35,5 +34,5 @@ function log(statCode, url, ip, err) {
   var logStr = statCode + ' - ' + url + ' - ' + ip;
   if (err)
     logStr += ' - ' + err;
-  sys.log(logStr);
+  console.log(logStr);
 }

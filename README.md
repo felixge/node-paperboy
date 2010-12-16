@@ -15,7 +15,6 @@ A node.js module for delivering static files.
 Example from example/basic.js:
 
     var
-      sys = require('sys'),
       path = require('path'),
       http = require('http'),
       paperboy = require('../lib/paperboy'),
@@ -30,7 +29,7 @@ Example from example/basic.js:
         .addHeader('Expires', 300)
         .addHeader('X-PaperRoute', 'Node')
         .before(function() {
-          sys.log('Received Request');
+          console.log('Received Request');
         })
         .after(function(statCode) {
           log(statCode, req.url, ip);
@@ -51,7 +50,7 @@ Example from example/basic.js:
       var logStr = statCode + ' - ' + url + ' - ' + ip;
       if (err)
         logStr += ' - ' + err;
-      sys.log(logStr);
+      console.log(logStr);
     }
 
 ## API Docs

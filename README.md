@@ -55,7 +55,7 @@ Example from example/basic.js:
 
 ## API Docs
 
-### paperboy.deliver(webroot, req, res, opts, callbacks)
+### paperboy.deliver(webroot, req, res)
 
 Checks the `webroot` folder if it has a file that matches the `req.url` and streams it to the client. If `req.url` ends with a '/' (slash), 'index.html' is appended automatically.
 
@@ -64,28 +64,28 @@ Parameters:
 * `webroot`: Absolute path where too look for static files to serve
 * `req`: A `http.ServerRequest` object
 * `res`: A `http.ServerResponse` object
-* `opts`: An object containing optional config parameters (only 'Expires' at the moment (in seconds))
-* `callbacks`: An object containing all callbacks described below:
 
-#### before()
+This returns an object with several functions that you can call, to modify how the static content is delivered. Each of these functions returns the object, so you can chain them, as shown in the example above. They each take a callback function, whose arguments and expected behavior are detailed below.
+
+#### before(callback())
 
 Fires if a matching file was found in the `webroot` and is about to be delivered. The delivery can be canceled by returning `false` from within the callback.
 
-#### after(statCode)
+#### after(callback(statCode))
 
 Fires after a file has been successfully delivered from the `webroot`. `statCode` contains the numeric HTTP status code that was sent to the client. You must close the connection yourself if the error callback fires!
 
-#### error(statCode, msg)
+#### error(callback(statCode, msg))
 
-Fires if there was an error delivering a file from the `webroot`. `statCode` contains the numeric HTTP status code that was sent to the client. `msg` contains the error message. You must close the connection yourself if the error callback fires!
+Fires if there was an error delivering a file from the `webroot`. `statCode` contains the numeric HTTP status code that was sent to the client. `msg` contains the error message. You must close the connection yourself if the error callback fires! The default callback shows a minimal HTTP error page.
 
-#### otherwise(err)
+#### otherwise(callback(err))
 
-Fires if no matching file was found in the `webroot`. Also fires if `false` was returned in the `delegate.before()` callback. If there was a problem stating the file, `err` is set to the contents of that error message.
+Fires if no matching file was found in the `webroot`. Also fires if `false` was returned in the `delegate.before()` callback. If there was a problem stating the file, `err` is set to the contents of that error message. The default callback shows a simple "HTTP 404 File Not Found" page.
 
-#### addHeader(name, value)
+#### addHeader(callback(name, value))
 
-Sets an arbitrary HTTP header. The header name `Expires` is special and expects the number of seconds till expiry, from which it will calculate the proper HTTP date.
+Sets an arbitrary HTTP header. The header name `Expires` is special and expects the number of milliseconds till expiry, from which it will calculate the proper HTTP date.
 
 ## License
 

@@ -4,6 +4,13 @@
 
 A node.js module for delivering static files.
 
+## Current Status
+
+This module is used by [tempalias.com](http://tempalias.com/) in production
+and is mainted by [Felix Geisendörfer](https://github.com/felixge). However,
+this one one of my first node modules and it lacks a test suite, you've been
+warned : ).
+
 ## Features
   
  * Configurable callbacks on most events

@@ -1,11 +1,19 @@
 {
-  "name":"paperboy",
-  "author":"Felix Geisendörfer <felix@debuggable.com>",
-  "version":"0.0.2",
-  "description":"A node.js module for delivering static files.",
-  "keywords": ["web", "server"],
+  "name": "paperboy",
+  "author": "Felix Geisendörfer <felix@debuggable.com>",
+  "version": "0.0.3",
+  "description": "A node.js module for delivering static files.",
+  "keywords": [
+    "web",
+    "server"
+  ],
   "directories": {
     "lib": "lib"
   },
-  "main": "lib/paperboy"
+  "main": "lib/paperboy",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": "*"
+  }
 }

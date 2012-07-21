@@ -1,3 +1,5 @@
+**IMPORTANT:** There is now a much better module called [send](https://github.com/visionmedia/send) - use that instead!
+
 # Paperboy
 
 ## Purpose

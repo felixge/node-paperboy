@@ -17,7 +17,7 @@ http.createServer(function(req, res) {
     })
     .after(function(statCode) {
       log(statCode, req.url, ip);
-    })
+    });
     // .error(function(statCode, msg) {
     //   res.writeHead(statCode, {'Content-Type': 'text/plain'});
     //   res.end("Error " + statCode);

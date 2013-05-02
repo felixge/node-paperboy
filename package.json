@@ -12,7 +12,9 @@
   },
   "main": "lib/paperboy",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "jshint": "1.1.0"
+  },
   "engines": {
     "node": "*"
   },

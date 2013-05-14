@@ -32,7 +32,10 @@ http.createServer(function(req, res) {
 
 function log(statCode, url, ip, err) {
   var logStr = statCode + ' - ' + url + ' - ' + ip;
-  if (err)
+
+  if (err) {
     logStr += ' - ' + err;
+  }
+
   console.log(logStr);
 }
